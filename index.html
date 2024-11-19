@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende a Programar - Documentación Elegante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 84%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            outline: none;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        .search-input:focus {
+            border-color: #3b82f6;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .language-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .language-card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .language-card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            color: #fff;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-description {
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background-color: transparent;
+            border: 1px solid currentColor;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .read-more-btn:hover {
+            background-color: currentColor;
+            color: #fff;
+        }
+
+        .read-more-btn svg {
+            margin-left: 0.5rem;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #64748b;
+            margin-top: 2rem;
+        }
+
+        /* Colores personalizados para cada lenguaje */
+        .python {
+            --primary-color: #306998;
+        }
+
+        .javascript {
+            --primary-color: #f0db4f;
+        }
+
+        .html {
+            --primary-color: #e8542f;
+        }
+
+        .css {
+            --primary-color: #264de4;
+        }
+
+        .reactnative{
+            --primary-color: #00e1ff;
+        }
+
+        .java{
+            --primary-color: #ff0000;
+        }
+
+        .kotlin{
+            --primary-color: #7300ac;
+        }
+
+
+        .language-card .card-header {
+            background-color: var(--primary-color);
+        }
+
+        .language-card .read-more-btn {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aprende a Programar</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Buscar lenguajes..." aria-label="Buscar lenguajes de programación">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <div id="language-grid" class="language-grid"></div>
+        <p id="no-results" class="no-results" style="display: none;">No se encontraron resultados para "<span id="search-term"></span>"</p>
+    </div>
+
+    <script>
+        const languages = [
+            {
+                title: "Python",
+                description: "Un lenguaje de programación versátil y fácil de aprender",
+                content: "Python es conocido por su sintaxis clara y legible, lo que lo hace ideal para principiantes. Es ampliamente utilizado en ciencia de datos, inteligencia artificial y desarrollo web.",
+                class: "python",
+                pdfUrl: "Python.pdf"
+            },
+            {
+                title: "JavaScript",
+                description: "El lenguaje de la web",
+                content: "JavaScript te permite crear páginas web interactivas y dinámicas. Es esencial para el desarrollo front-end y también se utiliza en el back-end con Node.js.",
+                class: "javascript",
+                pdfUrl: "JavaScript.pdf"
+            },
+            {
+                title: "HTML",
+                description: "La estructura de la web",
+                content: "HTML es el lenguaje de marcado estándar para crear páginas web. Define la estructura y el contenido de tu sitio web.",
+                class: "html",
+                pdfUrl: "Html.pdf"
+            },
+            {
+                title: "CSS",
+                description: "El estilo de la web",
+                content: "CSS es el lenguaje que usamos para estilizar páginas web. Controla el diseño, los colores y la presentación de tu contenido HTML.",
+                class: "css",
+                pdfUrl: "Css.pdf"
+            },
+            {
+                title: "React Native",
+                description: "Construye interfaces de usuario interactivas",
+                content: "React Native es una biblioteca de JavaScript para construir interfaces de usuario dinámicas y eficientes, especialmente en aplicaciones de una sola página (SPA).",
+                class: "reactnative",
+                pdfUrl: "React.pdf"
+
+            },
+            {
+                title: "Java",
+                description: "Escribe una vez, ejecuta en todas partes",
+                content: "Java es un lenguaje popular para aplicaciones empresariales, móviles (Android) y desarrollo de backend, conocido por su portabilidad y robustez.",
+                class: "java",
+                pdfUrl: "Java.pdf"
+            },
+            {
+                title: "Kotlin",
+                description: "Elegancia para Android",
+                content: "Kotlin combina seguridad y productividad, y es el lenguaje oficial para el desarrollo de aplicaciones Android.",
+                class: "kotlin",
+                pdfUrl: "Kotlin.pdf"
+            }
+        ];
+
+        const languageGrid = document.getElementById('language-grid');
+        const searchInput = document.getElementById('search-input');
+        const noResults = document.getElementById('no-results');
+        const searchTerm = document.getElementById('search-term');
+
+        function createLanguageCard(lang) {
+    const card = document.createElement('div');
+    card.className = `language-card ${lang.class}`;
+    card.innerHTML = `
+        <div class="card-header">
+            <h2 class="card-title">${lang.title}</h2>
+        </div>
+        <div class="card-content">
+            <p class="card-description">${lang.description}</p>
+            <p class="card-text">${lang.content}</p>
+            <button class="read-more-btn" data-pdf-url="${lang.pdfUrl || 'ruta/a/tu/archivo.pdf'}">
+                Leer más
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+    `;
+
+    const readMoreBtn = card.querySelector('.read-more-btn');
+    readMoreBtn.addEventListener('click', () => {
+        const pdfUrl = readMoreBtn.getAttribute('data-pdf-url');
+        
+        // Crear un enlace temporal para iniciar la descarga del PDF
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = pdfUrl.split('/').pop(); // Extrae el nombre del archivo del URL
+        link.click();
+    });
+
+    return card;
+}
+
+
+        function renderLanguages(langs) {
+            languageGrid.innerHTML = '';
+            langs.forEach(lang => {
+                languageGrid.appendChild(createLanguageCard(lang));
+            });
+        }
+
+        function filterLanguages(searchTerm) {
+            return languages.filter(lang =>
+                lang.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                lang.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                lang.content.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const filteredLanguages = filterLanguages(e.target.value);
+            renderLanguages(filteredLanguages);
+            if (filteredLanguages.length === 0) {
+                noResults.style.display = 'block';
+                searchTerm.textContent = e.target.value;
+            } else {
+                noResults.style.display = 'none';
+            }
+        });
+
+        // Initial render
+        renderLanguages(languages);
+    </script>
+</body>
+</html>
